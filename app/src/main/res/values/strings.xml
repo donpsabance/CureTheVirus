@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">CureTheVirus</string>
+    <string name="play_game">play game</string>
+    <string name="settings">settings</string>
+    <string name="help">help</string>
+    <string name="cure_the_virus">Cure The Virus</string>
+    <string name="todo">TODO</string>
 </resources>

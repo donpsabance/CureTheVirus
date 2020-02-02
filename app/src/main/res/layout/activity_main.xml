@@ -21,7 +21,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/virus_background"
             android:scaleType="centerCrop"
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+            tools:srcCompat="@tools:sample/backgrounds/scenic"
+            android:contentDescription="TODO" />
 
     </FrameLayout>
 
@@ -50,7 +51,7 @@
         android:id="@+id/button3"
         android:layout_width="0dp"
         android:layout_height="70dp"
-        android:text="play game"
+        android:text="@string/play_game"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
@@ -60,7 +61,7 @@
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:layout_marginTop="24dp"
-        android:text="settings"
+        android:text="@string/settings"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/button3" />
@@ -70,7 +71,7 @@
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:layout_marginTop="24dp"
-        android:text="help"
+        android:text="@string/help"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/button4" />
@@ -80,7 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/nosifer"
-        android:text="Cure The Virus"
+        android:text="@string/cure_the_virus"
         android:textColor="#000000"
         android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
@@ -97,6 +98,7 @@
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toTopOf="@+id/guideline2"
         app:srcCompat="@drawable/virus_icon"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        android:contentDescription="@string/todo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
