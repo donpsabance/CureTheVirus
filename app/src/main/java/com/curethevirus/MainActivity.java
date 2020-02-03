@@ -2,6 +2,7 @@ package com.curethevirus;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,5 +33,24 @@ public class MainActivity extends AppCompatActivity {
 
         final ImageView imageView = findViewById(R.id.mainIconView);
         imageView.startAnimation(rotateAnimation);
+
+
+        //load buttons
+        loadGameHelpButton();
+    }
+
+    private void loadGameHelpButton(){
+
+        Button button = findViewById(R.id.helpButton);
+        button.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view){
+                Intent intent = GameHelpActivity.makeIntent(MainActivity.this);
+                startActivity(intent);
+
+            }
+        });
+
     }
 }

@@ -5,4 +5,6 @@
     <string name="help">help</string>
     <string name="cure_the_virus">Cure The Virus</string>
     <string name="todo">TODO</string>
+    <string name="gameDescHelp">Oh no! A deadly virus has been discovered and your job is to prevent the spread of the virus. Each day, the virus spreads exponentially and you have to stop it. Find all the viruses as soon as possible before it becomes too late.  </string>
+    <string name="game_help">Game Help</string>
 </resources>
