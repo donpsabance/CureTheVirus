@@ -7,6 +7,9 @@
     <string name="todo">TODO</string>
     <string name="gameDescHelp">Oh no! A deadly virus has been discovered and your job is to prevent the spread of the virus. Each day, the virus spreads exponentially and you have to stop it. Find all the viruses as soon as possible before it becomes too late.  </string>
     <string name="game_help">Game Help</string>
+    <string name="welcomeTitle">Cure the Virus</string>
+    <string name="skipButton">skip</string>
+    <string name="devNames">By Amos and Don</string>
     <string name="_4x6">4x6</string>
     <string name="_5x10">5x10</string>
     <string name="_6x15">6x15</string>
