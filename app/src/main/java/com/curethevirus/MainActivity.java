@@ -7,12 +7,15 @@ import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         //full screen immersive experience - taken from android docs
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE |
                 View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //animation for rotating icon
         RotateAnimation rotateAnimation = new RotateAnimation(0f, 360f, 300f, 260f);
@@ -37,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
         //load buttons
         loadGameHelpButton();
+        loadSettingsButton();
+
     }
 
     private void loadGameHelpButton(){
@@ -51,6 +57,19 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void loadSettingsButton(){
+
+        Button button = findViewById(R.id.settingsButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = GameSettingsActivity.makeIntent(MainActivity.this);
+                startActivity(intent);
+            }
+        });
 
     }
+
 }
