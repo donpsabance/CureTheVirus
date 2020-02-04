@@ -24,6 +24,12 @@ public class WelcomeActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE |
                 View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
+        startAnimation();
+
+    }
+
+    private void startAnimation(){
+
         RotateAnimation rotateAnimation = new RotateAnimation(0f, 360f, 200f, 200f);
         rotateAnimation.setInterpolator(new LinearInterpolator());
         rotateAnimation.setRepeatCount(Animation.INFINITE);
@@ -58,17 +64,17 @@ public class WelcomeActivity extends AppCompatActivity {
         Thread myThread = new Thread() {
             @Override
             public void run() {
-                    try {
-                        sleep(100000);
-                        if(skipped == false) {
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
-                        }
-                        finish();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                try {
+                    sleep(5000);
+                    if(skipped == false) {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
                     }
+                    finish();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+            }
         };
 
         myThread.start();
