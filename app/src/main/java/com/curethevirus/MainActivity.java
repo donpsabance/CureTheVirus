@@ -17,8 +17,6 @@ import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static int WELCOME_TIME = 5000;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
