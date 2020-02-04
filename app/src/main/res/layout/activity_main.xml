@@ -48,33 +48,36 @@
         app:layout_constraintGuide_percent="0.35" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/playButton"
         android:layout_width="0dp"
         android:layout_height="70dp"
+        android:backgroundTint="#FFFFFF"
         android:text="@string/play_game"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/settingsButton"
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:layout_marginTop="24dp"
+        android:backgroundTint="#FFFFFF"
         android:text="@string/settings"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintTop_toBottomOf="@+id/playButton" />
 
     <Button
         android:id="@+id/helpButton"
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:layout_marginTop="24dp"
+        android:backgroundTint="#FFFFFF"
         android:text="@string/help"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/button4" />
+        app:layout_constraintTop_toBottomOf="@+id/settingsButton" />
 
     <TextView
         android:id="@+id/textView"

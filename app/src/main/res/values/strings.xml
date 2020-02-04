@@ -10,4 +10,15 @@
     <string name="welcomeTitle">Cure the Virus</string>
     <string name="skipButton">skip</string>
     <string name="devNames">By Amos and Don</string>
+    <string name="_4x6">4x6</string>
+    <string name="_5x10">5x10</string>
+    <string name="_6x15">6x15</string>
+    <string name="back">Back</string>
+    <string name="reset_statistics">Reset Statistics</string>
+    <string name="board_size">Board Size:</string>
+    <string name="of_mines"># of Mines:</string>
+    <string name="toggle_sound_effects">Toggle Sound Effects</string>
+    <string name="_20">20</string>
+    <string name="_6">6</string>
+    <string name="_10">10</string>
 </resources>
