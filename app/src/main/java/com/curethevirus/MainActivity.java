@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
         //animation for rotating icon
-        RotateAnimation rotateAnimation = new RotateAnimation(0f, 360f, 300f, 250f);
+        RotateAnimation rotateAnimation = new RotateAnimation(0f, 360f, 300f, 260f);
         rotateAnimation.setInterpolator(new LinearInterpolator());
         rotateAnimation.setRepeatCount(Animation.INFINITE);
         rotateAnimation.setDuration(7000);
