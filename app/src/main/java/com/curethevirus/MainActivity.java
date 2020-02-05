@@ -3,22 +3,22 @@ package com.curethevirus;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Spinner;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final int SETTINGS_REQUEST = 1;
+    private int rows;
+    private int columns;
+    private int virusCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +41,24 @@ public class MainActivity extends AppCompatActivity {
 
 
         //load buttons
+        loadPlayButton();
         loadGameHelpButton();
         loadSettingsButton();
 
+    }
+
+    private void loadPlayButton(){
+
+        Button button = findViewById(R.id.playButton);
+        button.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view){
+                Intent intent = GameActivity.makeIntent(MainActivity.this);
+                startActivity(intent);
+
+            }
+        });
     }
 
     private void loadGameHelpButton(){
@@ -67,10 +82,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = GameSettingsActivity.makeIntent(MainActivity.this);
-                startActivity(intent);
+                startActivityForResult(intent, SETTINGS_REQUEST);
             }
         });
-
     }
-
 }

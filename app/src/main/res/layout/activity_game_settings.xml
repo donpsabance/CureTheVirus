@@ -45,6 +45,7 @@
         android:text="@string/board_size"
         android:textColor="#000000"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toTopOf="@+id/guideline11" />
 
@@ -57,6 +58,7 @@
         android:text="@string/of_mines"
         android:textColor="#000000"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toTopOf="@+id/guideline11" />
 
@@ -73,94 +75,21 @@
         app:layout_constraintStart_toStartOf="@+id/guideline7" />
 
     <RadioGroup
-        android:id="@+id/radioGroup2"
+        android:id="@+id/boardSizeRadioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
-
-        <RadioButton
-            android:id="@+id/radioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:text="@string/_4x6"
-            android:textColor="#000000"
-            android:textSize="18sp" />
-
-        <RadioButton
-            android:id="@+id/radioButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:text="@string/_5x10"
-            android:textColor="#000000"
-            android:textSize="18sp" />
-
-        <RadioButton
-            android:id="@+id/radioButton3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:text="@string/_6x15"
-            android:textColor="#000000"
-            android:textSize="18sp" />
-
-    </RadioGroup>
+        app:layout_constraintTop_toBottomOf="@+id/textView2"/>
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/virusCountRadioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView3">
-
-        <RadioButton
-            android:id="@+id/radioButton4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:checked="true"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:text="@string/_6"
-            android:textColor="#000000"
-            android:textSize="18sp" />
-
-        <RadioButton
-            android:id="@+id/radioButton5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:text="@string/_10"
-            android:textColor="#000000"
-            android:textSize="18sp" />
-
-        <RadioButton
-            android:id="@+id/radioButton6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:text="15"
-            android:textColor="#000000"
-            android:textSize="18sp" />
-
-        <RadioButton
-            android:id="@+id/radioButton7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:text="@string/_20"
-            android:textColor="#000000"
-            android:textSize="18sp" />
-
-    </RadioGroup>
+        app:layout_constraintTop_toBottomOf="@+id/textView3"/>
 
     <Button
         android:id="@+id/settingsBackButton"

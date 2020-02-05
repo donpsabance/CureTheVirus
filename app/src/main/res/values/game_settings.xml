@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="virusAmount">
+        <item>6</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+    </integer-array>
+
+    <string-array name="boardSize">
+        <item>4x6</item>
+        <item>5x10</item>
+        <item>6x15</item>
+    </string-array>
+</resources>
