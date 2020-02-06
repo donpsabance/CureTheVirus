@@ -4,25 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/virus_background"
     tools:context=".GameHelpActivity">
-
-    <FrameLayout
-        android:id="@+id/frameLayout2"
-        android:layout_width="729dp"
-        android:layout_height="409dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/helpBackground"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/virus_background"
-            tools:srcCompat="@drawable/virus_background" />
-
-    </FrameLayout>
 
     <TextView
         android:id="@+id/helpTitle"
@@ -34,8 +17,7 @@
         android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/frameLayout2" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/helpDesc"
@@ -58,7 +40,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="sans-serif-condensed-medium"
-        android:text="Developed by Amos Ko and Don Abance"
+        android:text="@string/developers"
         android:textColor="#000000"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -71,7 +53,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginBottom="32dp"
         android:backgroundTint="#FFFFFF"
-        android:text="Back"
+        android:text="@string/back_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline4" />
 
@@ -95,5 +77,23 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.9" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/background_url"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/helpDesc" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/icon_url"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,7 +2,9 @@ package com.curethevirus;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,12 +15,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.curethevirus.model.GameSettings;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int SETTINGS_REQUEST = 1;
-    private int rows;
-    private int columns;
-    private int virusCount;
+    private GameSettings gameSettings;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +42,26 @@ public class MainActivity extends AppCompatActivity {
         final ImageView imageView = findViewById(R.id.mainIconView);
         imageView.startAnimation(rotateAnimation);
 
+        gameSettings = gameSettings.getInstance();
+
 
         //load buttons
         loadPlayButton();
         loadGameHelpButton();
         loadSettingsButton();
+
+        //load game settings
+        loadGameSettings();
+
+    }
+
+    private void loadGameSettings() {
+
+        final SharedPreferences sharedPreferences = MainActivity.this.getSharedPreferences(getString(R.string.settingSharedPref), Context.MODE_PRIVATE);
+
+        gameSettings.setRows(sharedPreferences.getInt("rows", 0));
+        gameSettings.setColumns(sharedPreferences.getInt("columns", 0));
+        gameSettings.setVirusCount(sharedPreferences.getInt("virusCount", 0));
 
     }
 

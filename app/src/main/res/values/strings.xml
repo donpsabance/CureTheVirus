@@ -25,4 +25,8 @@
     <string name="mines_found">Mines found:</string>
     <string name="settingSharedPref">gameSettings</string>
     <string name="times_played">Times Played:</string>
+    <string name="background_url">https://namitoledo.org/virus-background-01/</string>
+    <string name="icon_url">https://icons8.com/icons/set/virus</string>
+    <string name="back_button">Back</string>
+    <string name="developers">Developed by Amos Ko and Don Abance</string>
 </resources>

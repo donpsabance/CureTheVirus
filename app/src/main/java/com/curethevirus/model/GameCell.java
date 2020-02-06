@@ -13,21 +13,23 @@ import com.curethevirus.GameActivity;
 
 public class GameCell{
 
-    private Button button;
-    private Drawable backgroundImage;
+    private int rowLocation;
+    private int columnLocation;
     private boolean isVirus;
+    private Button button;
 
-    public GameCell(Button button, boolean virus, Drawable backgroundImage){
+    public GameCell(int rowLocation, int columnLocation, boolean isVirus, Button button) {
+        this.rowLocation = rowLocation;
+        this.columnLocation = columnLocation;
+        this.isVirus = isVirus;
         this.button = button;
-        this.isVirus = virus;
-        this.backgroundImage = backgroundImage;
     }
 
-    public boolean isVirus(){
-        return this.isVirus;
+    public Button getButton() {
+        return button;
     }
 
-    private void setButtonBackground(){
-        button.setBackground(backgroundImage);
+    public boolean isVirus() {
+        return isVirus;
     }
 }

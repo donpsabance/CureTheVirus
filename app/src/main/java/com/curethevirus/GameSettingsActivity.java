@@ -16,9 +16,13 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.curethevirus.model.GameSettings;
+
 import java.util.Map;
 
 public class GameSettingsActivity extends AppCompatActivity {
+
+    private GameSettings gameSettings;
 
     public static Intent makeIntent(Context context){
         return new Intent(context, GameSettingsActivity.class);
@@ -35,6 +39,8 @@ public class GameSettingsActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
+        gameSettings = GameSettings.getInstance();
+
         //load radio buttons
         loadBoardSizeRadioButtons();
         loadVirusCountRadioButtons();
@@ -48,8 +54,27 @@ public class GameSettingsActivity extends AppCompatActivity {
     protected void onStart(){
 
         super.onStart();
-
         loadGameSettings();
+    }
+
+    @Override
+    protected void onPause(){
+
+        super.onPause();
+        saveGameSettings();
+
+    }
+
+    private void saveGameSettings() {
+
+        final SharedPreferences sharedPreferences = GameSettingsActivity.this.getSharedPreferences(getString(R.string.settingSharedPref), Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putInt("rows", gameSettings.getRows()).apply();
+        editor.putInt("columns", gameSettings.getColumns()).apply();
+        editor.putInt("virusCount", gameSettings.getVirusCount()).apply();
+
+
     }
 
     private void loadGameSettings() {
@@ -63,8 +88,8 @@ public class GameSettingsActivity extends AppCompatActivity {
 
         for(int i = 0; i < boardSizeValues.length; i++){
 
-            int rows = sharedPreferences.getInt("rows", 0);
-            int columns = sharedPreferences.getInt("columns", 0);
+            int rows = gameSettings.getRows();
+            int columns = gameSettings.getColumns();
 
             if(Integer.parseInt(boardSizeValues[i].split("x")[0]) == rows &&
                 Integer.parseInt(boardSizeValues[i].split("x")[1]) == columns){
@@ -72,14 +97,12 @@ public class GameSettingsActivity extends AppCompatActivity {
                 RadioButton radioButton = (RadioButton) boardSizeRadioGroup.getChildAt(i);
                 radioButton.setChecked(true);
 
-//                Toast.makeText(GameSettingsActivity.this, "FOUND @ " + i + " r " + rows + " c " + columns, Toast.LENGTH_SHORT).show();
-
             }
         }
 
         for(int i = 0; i < virusCountValues.length; i++){
 
-            int virusCount = sharedPreferences.getInt("virusCount", 0);
+            int virusCount = gameSettings.getVirusCount();
 
             if(virusCountValues[i] == virusCount){
 
@@ -93,7 +116,6 @@ public class GameSettingsActivity extends AppCompatActivity {
     private void loadBoardSizeRadioButtons() {
 
         final SharedPreferences sharedPreferences = GameSettingsActivity.this.getSharedPreferences(getString(R.string.settingSharedPref), Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPreferences.edit();
         RadioGroup radioGroup = findViewById(R.id.boardSizeRadioGroup);
 
         String[] values = getResources().getStringArray(R.array.boardSize);
@@ -112,9 +134,9 @@ public class GameSettingsActivity extends AppCompatActivity {
                 public void onClick(View v) {
 
                     //load the values, split at 'x' because they are formatted to be row x cols
+                    gameSettings.setRows(Integer.parseInt(currentValue.split("x")[0]));
+                    gameSettings.setColumns(Integer.parseInt(currentValue.split("x")[1]));
 
-                    editor.putInt("rows", Integer.parseInt(currentValue.split("x")[0])).apply();
-                    editor.putInt("columns", Integer.parseInt(currentValue.split("x")[1])).apply();
                 }
             });
 
@@ -129,8 +151,9 @@ public class GameSettingsActivity extends AppCompatActivity {
             //set defaults
             RadioButton radioButton = (RadioButton) radioGroup.getChildAt(0);
             radioButton.setChecked(true);
-            editor.putInt("rows", Integer.parseInt (((RadioButton) radioGroup.getChildAt(0)).getText().toString().split("x")[0] + "")).apply();
-            editor.putInt("columns", Integer.parseInt (((RadioButton) radioGroup.getChildAt(0)).getText().toString().split("x")[1] + "")).apply();
+
+            gameSettings.setRows(Integer.parseInt (((RadioButton) radioGroup.getChildAt(0)).getText().toString().split("x")[0] + ""));
+            gameSettings.setColumns(Integer.parseInt (((RadioButton) radioGroup.getChildAt(0)).getText().toString().split("x")[1] + ""));
 
         }
     }
@@ -138,7 +161,6 @@ public class GameSettingsActivity extends AppCompatActivity {
     private void loadVirusCountRadioButtons() {
 
         final SharedPreferences sharedPreferences = GameSettingsActivity.this.getSharedPreferences(getString(R.string.settingSharedPref), Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPreferences.edit();
         RadioGroup radioGroup = findViewById(R.id.virusCountRadioGroup);
 
         int[] values = getResources().getIntArray(R.array.virusAmount);
@@ -156,7 +178,8 @@ public class GameSettingsActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    editor.putInt("virusCount", currentValue).apply();
+                    gameSettings.setVirusCount(currentValue);
+
                 }
             });
 
@@ -170,7 +193,7 @@ public class GameSettingsActivity extends AppCompatActivity {
             //set defaults
             RadioButton radioButton = (RadioButton) radioGroup.getChildAt(0);
             radioButton.setChecked(true);
-            editor.putInt("virusCount", Integer.parseInt (((RadioButton) radioGroup.getChildAt(0)).getText().toString().split(" ")[0] + "")).apply();
+            gameSettings.setVirusCount(Integer.parseInt (((RadioButton) radioGroup.getChildAt(0)).getText().toString().split(" ")[0] + ""));
 
         }
     }

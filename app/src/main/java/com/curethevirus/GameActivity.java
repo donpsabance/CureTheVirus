@@ -12,14 +12,20 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.Toast;
 
-import java.util.Map;
+import com.curethevirus.model.GameSettings;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
 
+    private GameSettings gameSettings;
+
     private int rows;
     private int columns;
+    private int virusCount;
 
     public static Intent makeIntent(Context context){
         return new Intent(context, GameActivity.class);
@@ -36,6 +42,8 @@ public class GameActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        gameSettings = GameSettings.getInstance();
+
         //get rows and columns from settings
         getBoardSize();
 
@@ -46,10 +54,9 @@ public class GameActivity extends AppCompatActivity {
 
     private void getBoardSize() {
 
-        final SharedPreferences sharedPreferences = GameActivity.this.getSharedPreferences(getString(R.string.settingSharedPref), Context.MODE_PRIVATE);
-
-        rows = sharedPreferences.getInt("rows", 0);
-        columns = sharedPreferences.getInt("columns", 0);
+        rows = gameSettings.getRows();
+        columns = gameSettings.getColumns();
+        virusCount = gameSettings.getVirusCount();
 
     }
 
