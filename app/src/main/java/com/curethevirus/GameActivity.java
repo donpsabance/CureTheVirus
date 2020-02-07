@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,15 +15,14 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
+import com.curethevirus.model.GameCell;
+import com.curethevirus.model.GameCellManager;
 import com.curethevirus.model.GameSettings;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
 
     private GameSettings gameSettings;
+    private GameCellManager gameCellManager;
 
     private int rows;
     private int columns;
@@ -42,13 +43,15 @@ public class GameActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        gameSettings = GameSettings.getInstance();
-
         //get rows and columns from settings
+        gameSettings = GameSettings.getInstance();
         getBoardSize();
 
-        //load button cells
+        gameCellManager = new GameCellManager(rows, columns, virusCount);
+
+        //load game play elements
         loadCells();
+        gameCellManager.generateVirus();
 
     }
 
@@ -77,6 +80,9 @@ public class GameActivity extends AppCompatActivity {
 
             for(int j = 0; j < columns; j++){
 
+                final int currentRow = i;
+                final int currentCol = j;
+
                 Button button = new Button(this);
                 button.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
@@ -87,11 +93,137 @@ public class GameActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
+
                         //scan the cells
+                        lockButtonSize();
+                        scanCell(currentRow, currentCol);
+
                     }
                 });
 
+                GameCell gameCell = new GameCell(i, j, false, button);
+                gameCellManager.addCell(gameCell, i, j);
                 tableRow.addView(button);
+            }
+        }
+    }
+
+    private void lockButtonSize(){
+
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < columns; j++){
+
+                Button button = gameCellManager.getGameCells().get(i).get(j).getButton();
+
+                int width = button.getWidth();
+                int height = button.getHeight();
+
+                button.setMinWidth(width);
+                button.setMaxWidth(width);
+
+                button.setMinHeight(height);
+                button.setMaxHeight(height);
+
+            }
+        }
+    }
+
+    public void scanCell(int row, int col){
+
+        if(gameCellManager.getGameCells().get(row).get(col).isVirus()){
+
+            GameCell gameCell = gameCellManager.getGameCells().get(row).get(col);
+
+            if(!gameCell.isFlipped()){
+
+                Button button = gameCell.getButton();
+
+                int newWidth = gameCellManager.getGameCells().get(row).get(col).getButton().getWidth();
+                int newHeight = gameCellManager.getGameCells().get(row).get(col).getButton().getHeight();
+
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.virus_icon);
+                Bitmap scaled = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
+                button.setBackground(new BitmapDrawable(getResources(), scaled));
+
+                gameCell.setFlipped(true);
+                updateButtons(row, col);
+
+            } else {
+
+
+            }
+        } else {
+
+            GameCell gameCell = gameCellManager.getGameCells().get(row).get(col);
+
+            if(!gameCell.isFlipped()){
+
+                Button button = gameCell.getButton();
+
+                int newWidth = gameCellManager.getGameCells().get(row).get(col).getButton().getWidth();
+                int newHeight = gameCellManager.getGameCells().get(row).get(col).getButton().getHeight();
+
+
+                gameCell.setFlipped(true);
+                button.setText(findViruses(row, col) + "");
+
+                updateButtons(row, col);
+
+            }
+        }
+    }
+
+    private int findViruses(int row, int col){
+
+        GameCell gameCell;
+        int found = 0;
+
+        //check all vertical ones
+        for(int i = 0; i < rows; i++){
+
+            gameCell = gameCellManager.getGameCells().get(i).get(col);
+
+            if(gameCell.isVirus() && !gameCell.isFlipped()){
+                found++;
+            }
+        }
+
+        //check all horizontal ones
+        for(int i = 0; i < columns; i++) {
+
+            gameCell = gameCellManager.getGameCells().get(row).get(i);
+
+            if (gameCell.isVirus() && !gameCell.isFlipped()){
+                found++;
+            }
+        }
+        return found;
+    }
+
+    private void updateButtons(int row, int col){
+
+        GameCell gameCell;
+
+        //check all vertical ones
+        for(int i = 0; i < rows; i++){
+
+            gameCell = gameCellManager.getGameCells().get(i).get(col);
+            Button button = gameCell.getButton();
+
+            if(gameCell.isFlipped() && !gameCell.isVirus()){
+                button.setText(findViruses(i, col) + "");
+
+            }
+        }
+
+        //check all horizontal ones
+        for(int i = 0; i < columns; i++){
+
+            gameCell = gameCellManager.getGameCells().get(row).get(i);
+            Button button = gameCell.getButton();
+
+            if(gameCell.isFlipped() && !gameCell.isVirus()){
+                button.setText(findViruses(row, i) + "");
             }
         }
     }
