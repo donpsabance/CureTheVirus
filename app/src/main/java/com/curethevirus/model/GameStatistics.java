@@ -2,10 +2,37 @@ package com.curethevirus.model;
 
 public class GameStatistics {
 
+    private int currentMoves;
+    private int currentVirusFound;
     private int gamesPlayed;
     private int best4x6Game;
     private int best5x10Game;
     private int best6x15Game;
+
+    public GameStatistics(){
+        this.currentMoves = 0;
+        this.currentVirusFound = 0;
+        this.gamesPlayed = 0;
+        this.best4x6Game = 0;
+        this.best5x10Game = 0;
+        this.best6x15Game = 0;
+    }
+
+    public int getCurrentMoves() {
+        return currentMoves;
+    }
+
+    public void setCurrentMoves(int currentMoves) {
+        this.currentMoves = currentMoves;
+    }
+
+    public int getCurrentVirusFound() {
+        return currentVirusFound;
+    }
+
+    public void setCurrentVirusFound(int currentVirusFound) {
+        this.currentVirusFound = currentVirusFound;
+    }
 
     public int getGamesPlayed() {
         return gamesPlayed;

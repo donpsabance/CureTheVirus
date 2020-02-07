@@ -14,14 +14,19 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.curethevirus.model.GameCell;
 import com.curethevirus.model.GameCellManager;
 import com.curethevirus.model.GameSettings;
+import com.curethevirus.model.GameStatistics;
+
+import org.w3c.dom.Text;
 
 public class GameActivity extends AppCompatActivity {
 
     private GameSettings gameSettings;
+    private GameStatistics gameStatistics;
     private GameCellManager gameCellManager;
 
     private int rows;
@@ -45,6 +50,7 @@ public class GameActivity extends AppCompatActivity {
 
         //get rows and columns from settings
         gameSettings = GameSettings.getInstance();
+        gameStatistics = new GameStatistics();
         getBoardSize();
 
         gameCellManager = new GameCellManager(rows, columns, virusCount);
@@ -93,10 +99,10 @@ public class GameActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-
                         //scan the cells
                         lockButtonSize();
                         scanCell(currentRow, currentCol);
+                        updateGameStatistics();
 
                     }
                 });
@@ -148,8 +154,11 @@ public class GameActivity extends AppCompatActivity {
                 gameCell.setFlipped(true);
                 updateButtons(row, col);
 
+                gameStatistics.setCurrentMoves(gameStatistics.getCurrentMoves() + 1);
+
             } else {
 
+                //update virus cells
 
             }
         } else {
@@ -168,6 +177,8 @@ public class GameActivity extends AppCompatActivity {
                 button.setText(findViruses(row, col) + "");
 
                 updateButtons(row, col);
+
+                gameStatistics.setCurrentMoves(gameStatistics.getCurrentMoves() + 1);
 
             }
         }
@@ -226,5 +237,17 @@ public class GameActivity extends AppCompatActivity {
                 button.setText(findViruses(row, i) + "");
             }
         }
+    }
+
+    private void updateGameStatistics() {
+
+        TextView minesFound = findViewById(R.id.minesFoundTextView);
+        TextView currentMoves = findViewById(R.id.currentMovesTextView);
+        TextView gamesPlayed = findViewById(R.id.gamesPlayedTextView);
+
+        minesFound.setText(getResources().getText(R.string.mines_found).toString() + " " + gameStatistics.getCurrentVirusFound() + " of " +gameSettings.getVirusCount());
+        currentMoves.setText(getResources().getText(R.string.of_scans_used).toString() + " " + gameStatistics.getCurrentMoves());
+        gamesPlayed.setText(getResources().getText(R.string.times_played).toString() + " " + gameStatistics.getGamesPlayed());
+
     }
 }
