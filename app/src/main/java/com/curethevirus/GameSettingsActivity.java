@@ -9,20 +9,19 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.curethevirus.model.GameSettings;
-
-import java.util.Map;
+import com.curethevirus.model.GameStatistics;
 
 public class GameSettingsActivity extends AppCompatActivity {
 
     private GameSettings gameSettings;
+    private GameStatistics gameStatistics;
 
     public static Intent makeIntent(Context context){
         return new Intent(context, GameSettingsActivity.class);
@@ -40,6 +39,9 @@ public class GameSettingsActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         gameSettings = GameSettings.getInstance();
+        gameStatistics = GameStatistics.getInstance();
+
+        loadStatistics();
 
         //load radio buttons
         loadBoardSizeRadioButtons();
@@ -74,6 +76,19 @@ public class GameSettingsActivity extends AppCompatActivity {
         editor.putInt("columns", gameSettings.getColumns()).apply();
         editor.putInt("virusCount", gameSettings.getVirusCount()).apply();
 
+    }
+
+    private void loadStatistics() {
+
+        TextView textView4x6 = findViewById(R.id.highScore4x6);
+        TextView textView5x10 = findViewById(R.id.highScore5x10);
+        TextView textView6x15 = findViewById(R.id.highScore6x15);
+        TextView textViewGamesPlayed = findViewById(R.id.gamesPlayedTextView);
+
+        textView4x6.setText(getResources().getText(R.string._4x6).toString() + " " + gameStatistics.getBest4x6Game() + " moves");
+        textView5x10.setText(getResources().getText(R.string._5x10).toString() + " " + gameStatistics.getBest5x10Game() + " moves");
+        textView6x15.setText(getResources().getText(R.string._6x15).toString() + " " + gameStatistics.getBest6x15Game() + " moves");
+        textViewGamesPlayed.setText(getResources().getText(R.string.times_played).toString() + " " + gameStatistics.getGamesPlayed());
 
     }
 
@@ -198,7 +213,6 @@ public class GameSettingsActivity extends AppCompatActivity {
         }
     }
 
-
     private void loadBackButton(){
 
         Button button = findViewById(R.id.settingsBackButton);
@@ -218,7 +232,10 @@ public class GameSettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //reset statistics
+                gameStatistics.resetStatistics();
+                loadStatistics();
+
+                Toast.makeText(GameSettingsActivity.this, "Statistics have been reset!", Toast.LENGTH_SHORT).show();
             }
         });
     }

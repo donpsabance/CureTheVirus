@@ -2,20 +2,44 @@ package com.curethevirus.model;
 
 public class GameStatistics {
 
+    //does not need to be saved after app shutdown
     private int currentMoves;
     private int currentVirusFound;
+
+    //store in Shared Preference
     private int gamesPlayed;
     private int best4x6Game;
     private int best5x10Game;
     private int best6x15Game;
 
-    public GameStatistics(){
+    private static GameStatistics instance;
+
+    public static GameStatistics getInstance(){
+        if(instance == null){
+            instance = new GameStatistics();
+        }
+        return instance;
+    }
+
+
+    private GameStatistics(){
         this.currentMoves = 0;
         this.currentVirusFound = 0;
         this.gamesPlayed = 0;
         this.best4x6Game = 0;
         this.best5x10Game = 0;
         this.best6x15Game = 0;
+    }
+
+    public void resetStatistics(){
+
+        this.currentMoves = 0;
+        this.currentVirusFound = 0;
+        this.gamesPlayed = 0;
+        this.best4x6Game = 0;
+        this.best5x10Game = 0;
+        this.best6x15Game = 0;
+
     }
 
     public int getCurrentMoves() {

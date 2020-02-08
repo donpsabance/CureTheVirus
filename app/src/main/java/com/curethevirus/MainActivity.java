@@ -18,12 +18,18 @@ import android.widget.Toast;
 
 import com.curethevirus.model.GameCellManager;
 import com.curethevirus.model.GameSettings;
+import com.curethevirus.model.GameStatistics;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int SETTINGS_REQUEST = 1;
-    private GameSettings gameSettings;
 
+    private GameSettings gameSettings;
+    private GameStatistics gameStatistics;
+
+    public static Intent makeIntent(Context context){
+        return new Intent(context, MainActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
         final ImageView imageView = findViewById(R.id.mainIconView);
         imageView.startAnimation(rotateAnimation);
 
-        gameSettings = gameSettings.getInstance();
+        gameSettings = GameSettings.getInstance();
+        gameStatistics = GameStatistics.getInstance();
 
         //load buttons
         loadPlayButton();
@@ -53,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
         //load game settings
         loadGameSettings();
+
+        //load game statistics
+        loadGameStatistics();
 
     }
 
@@ -63,6 +73,21 @@ public class MainActivity extends AppCompatActivity {
         gameSettings.setRows(sharedPreferences.getInt("rows", 0));
         gameSettings.setColumns(sharedPreferences.getInt("columns", 0));
         gameSettings.setVirusCount(sharedPreferences.getInt("virusCount", 0));
+
+
+    }
+
+
+    private void loadGameStatistics() {
+
+        final SharedPreferences sharedPreferences = MainActivity.this.getSharedPreferences(getString(R.string.settingSharedPref), Context.MODE_PRIVATE);
+
+        gameStatistics.setCurrentMoves(sharedPreferences.getInt("currentMoves", 0));
+        gameStatistics.setCurrentVirusFound(sharedPreferences.getInt("currentVirusFound", 0));
+
+        gameStatistics.setGamesPlayed(sharedPreferences.getInt("gamesPlayed", 0));
+
+        //load highscores
 
     }
 
@@ -76,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = GameActivity.makeIntent(MainActivity.this);
                 startActivity(intent);
 
+                gameStatistics.setGamesPlayed(gameStatistics.getGamesPlayed() + 1);
             }
         });
     }
