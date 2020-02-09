@@ -1,8 +1,10 @@
 package com.curethevirus;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.curethevirus.model.GameCell;
 import com.curethevirus.model.GameCellManager;
@@ -117,6 +120,9 @@ public class GameActivity extends AppCompatActivity {
                         scanCell(currentRow, currentCol);
                         updateGameStatistics();
 
+                        if(gameStatistics.getCurrentVirusFound() == gameSettings.getVirusCount()) {
+                            endDialog();
+                        }
                     }
                 });
 
@@ -263,5 +269,24 @@ public class GameActivity extends AppCompatActivity {
         currentMoves.setText(getResources().getText(R.string.of_scans_used).toString() + " " + gameStatistics.getCurrentMoves());
         gamesPlayed.setText(getResources().getText(R.string.times_played).toString() + " " + gameStatistics.getGamesPlayed());
 
+    }
+
+    private void endDialog() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Game Over!");
+        alert.setMessage("Do you want to play again?");
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                recreate();
+            }
+        });
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        alert.create().show();
     }
 }
