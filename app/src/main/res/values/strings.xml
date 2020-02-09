@@ -29,4 +29,5 @@
     <string name="icon_url">https://icons8.com/icons/set/virus</string>
     <string name="back_button">Back</string>
     <string name="developers">Developed by Amos Ko and Don Abance</string>
+    <string name="highscores">Highscores</string>
 </resources>

@@ -55,7 +55,7 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 skipped = true;
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = MainActivity.makeIntent(WelcomeActivity.this);
                 startActivity(intent);
                 finish();
             }
@@ -67,7 +67,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 try {
                     sleep(5000);
                     if(skipped == false) {
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        Intent intent = MainActivity.makeIntent(WelcomeActivity.this);
                         startActivity(intent);
                     }
                     finish();

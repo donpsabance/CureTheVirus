@@ -17,6 +17,7 @@ public class GameCell{
     private int columnLocation;
     private boolean isVirus;
     private boolean isFlipped;
+    private boolean isVirusClicked;
     private Button button;
 
     public GameCell(int rowLocation, int columnLocation, boolean isVirus, Button button) {
@@ -24,6 +25,7 @@ public class GameCell{
         this.columnLocation = columnLocation;
         this.isVirus = isVirus;
         this.isFlipped = false;
+        this.isVirusClicked = false;
         this.button = button;
     }
 
@@ -37,6 +39,14 @@ public class GameCell{
 
     public void setFlipped(boolean flipped) {
         isFlipped = flipped;
+    }
+
+    public boolean isVirusClicked() {
+        return isVirusClicked;
+    }
+
+    public void setVirusClicked(boolean virusClicked) {
+        isVirusClicked = virusClicked;
     }
 
     public boolean isVirus() {

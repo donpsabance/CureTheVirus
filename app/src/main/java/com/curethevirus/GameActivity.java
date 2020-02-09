@@ -6,11 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -24,7 +24,6 @@ import com.curethevirus.model.GameCellManager;
 import com.curethevirus.model.GameSettings;
 import com.curethevirus.model.GameStatistics;
 
-import org.w3c.dom.Text;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -53,7 +52,7 @@ public class GameActivity extends AppCompatActivity {
 
         //get rows and columns from settings
         gameSettings = GameSettings.getInstance();
-        gameStatistics = new GameStatistics();
+        gameStatistics = GameStatistics.getInstance();
         getBoardSize();
 
         gameCellManager = new GameCellManager(rows, columns, virusCount);
@@ -61,6 +60,22 @@ public class GameActivity extends AppCompatActivity {
         //load game play elements
         loadCells();
         gameCellManager.generateVirus();
+        updateGameStatistics();
+
+    }
+
+    @Override
+    protected void onPause(){
+
+        super.onPause();
+
+        //save statistics
+        final SharedPreferences sharedPreferences = GameActivity.this.getSharedPreferences(getString(R.string.settingSharedPref), Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putInt("currentMoves", gameStatistics.getCurrentMoves()).apply();
+        editor.putInt("currentVirusFound", gameStatistics.getCurrentVirusFound()).apply();
+        editor.putInt("gamesPlayed", gameStatistics.getGamesPlayed()).apply();
     }
 
     private void getBoardSize() {
@@ -70,7 +85,6 @@ public class GameActivity extends AppCompatActivity {
         virusCount = gameSettings.getVirusCount();
 
     }
-
 
     private void loadCells(){
 
@@ -160,10 +174,14 @@ public class GameActivity extends AppCompatActivity {
                 updateButtons(row, col);
 
                 gameStatistics.setCurrentMoves(gameStatistics.getCurrentMoves() + 1);
+                gameStatistics.setCurrentVirusFound(gameStatistics.getCurrentVirusFound() + 1);
 
-            } else {
+            } else if(gameCell.isFlipped() && (!gameCell.isVirusClicked())){
 
                 //update virus cells
+                gameCell.setVirusClicked(true);
+                updateButtons(row, col);
+                gameStatistics.setCurrentMoves(gameStatistics.getCurrentMoves() + 1);
 
             }
         } else {
@@ -177,12 +195,10 @@ public class GameActivity extends AppCompatActivity {
                 int newWidth = gameCellManager.getGameCells().get(row).get(col).getButton().getWidth();
                 int newHeight = gameCellManager.getGameCells().get(row).get(col).getButton().getHeight();
 
-
                 gameCell.setFlipped(true);
                 button.setText(findViruses(row, col) + "");
 
                 updateButtons(row, col);
-
                 gameStatistics.setCurrentMoves(gameStatistics.getCurrentMoves() + 1);
 
             }
@@ -226,9 +242,8 @@ public class GameActivity extends AppCompatActivity {
             gameCell = gameCellManager.getGameCells().get(i).get(col);
             Button button = gameCell.getButton();
 
-            if(gameCell.isFlipped() && !gameCell.isVirus()){
+            if(gameCell.isFlipped() && !gameCell.isVirus() || (gameCell.isVirusClicked())){
                 button.setText(findViruses(i, col) + "");
-
             }
         }
 
@@ -238,7 +253,7 @@ public class GameActivity extends AppCompatActivity {
             gameCell = gameCellManager.getGameCells().get(row).get(i);
             Button button = gameCell.getButton();
 
-            if(gameCell.isFlipped() && !gameCell.isVirus()){
+            if(gameCell.isFlipped() && !gameCell.isVirus() || (gameCell.isVirusClicked())){
                 button.setText(findViruses(row, i) + "");
             }
         }
@@ -250,7 +265,7 @@ public class GameActivity extends AppCompatActivity {
         TextView currentMoves = findViewById(R.id.currentMovesTextView);
         TextView gamesPlayed = findViewById(R.id.gamesPlayedTextView);
 
-        minesFound.setText(getResources().getText(R.string.mines_found).toString() + " " + gameStatistics.getCurrentVirusFound() + " of " +gameSettings.getVirusCount());
+        minesFound.setText(getResources().getText(R.string.mines_found).toString() + " " + gameStatistics.getCurrentVirusFound() + " of " + gameSettings.getVirusCount());
         currentMoves.setText(getResources().getText(R.string.of_scans_used).toString() + " " + gameStatistics.getCurrentMoves());
         gamesPlayed.setText(getResources().getText(R.string.times_played).toString() + " " + gameStatistics.getGamesPlayed());
 
