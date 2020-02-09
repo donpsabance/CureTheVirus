@@ -36,11 +36,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //full screen immersive experience - taken from android docs
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE |
-                View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         //animation for rotating icon
         RotateAnimation rotateAnimation = new RotateAnimation(0f, 360f, 300f, 260f);
         rotateAnimation.setInterpolator(new LinearInterpolator());
@@ -66,6 +61,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart(){
+
+        super.onStart();
+        //full screen immersive experience - taken from android docs
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE |
+                View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+    }
+
     private void loadGameSettings() {
 
         final SharedPreferences sharedPreferences = MainActivity.this.getSharedPreferences(getString(R.string.settingSharedPref), Context.MODE_PRIVATE);
@@ -86,6 +92,9 @@ public class MainActivity extends AppCompatActivity {
         gameStatistics.setCurrentVirusFound(sharedPreferences.getInt("currentVirusFound", 0));
 
         gameStatistics.setGamesPlayed(sharedPreferences.getInt("gamesPlayed", 0));
+        gameStatistics.setBest4x6Game(sharedPreferences.getInt("best4x6", 0));
+        gameStatistics.setBest5x10Game(sharedPreferences.getInt("best5x10", 0));
+        gameStatistics.setBest6x15Game(sharedPreferences.getInt("best6x15", 0));
 
         //load highscores
 

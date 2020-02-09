@@ -30,7 +30,7 @@ public class GameCellManager {
         this.columns = col;
         this.virusCount = virusCount;
 
-        //instantiate columns
+        //instantiate rows
         for(int i = 0; i < rows; i++){
             gameCells.add(new ArrayList<GameCell>());
         }
@@ -60,17 +60,14 @@ public class GameCellManager {
             }
         }
 
-
         //now apply all virus to the cells
         //convert all locations into 2d location
-        for(int i = 0; i < virusLocations.size(); i++){
+        for(Integer i : virusLocations){
 
-            int location = virusLocations.get(i);
-            int row = location / columns;
-            int col = location % columns;
+            int row = i / columns;
+            int col = i % columns;
 
             gameCells.get(row).get(col).setVirus(true);
-
         }
     }
 }

@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -45,11 +46,6 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_screen);
 
-        //full screen immersive experience - taken from android docs
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE |
-                View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         //get rows and columns from settings
         gameSettings = GameSettings.getInstance();
         gameStatistics = GameStatistics.getInstance();
@@ -65,6 +61,16 @@ public class GameActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart(){
+
+        super.onStart();
+        //full screen immersive experience - taken from android docs
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE |
+                View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
+    @Override
     protected void onPause(){
 
         super.onPause();
@@ -76,6 +82,10 @@ public class GameActivity extends AppCompatActivity {
         editor.putInt("currentMoves", gameStatistics.getCurrentMoves()).apply();
         editor.putInt("currentVirusFound", gameStatistics.getCurrentVirusFound()).apply();
         editor.putInt("gamesPlayed", gameStatistics.getGamesPlayed()).apply();
+
+        editor.putInt("best4x6", gameStatistics.getBest4x6Game());
+        editor.putInt("best5x10", gameStatistics.getBest5x10Game());
+        editor.putInt("best6x15", gameStatistics.getBest6x15Game());
     }
 
     private void getBoardSize() {
@@ -122,6 +132,10 @@ public class GameActivity extends AppCompatActivity {
 
                         if(gameStatistics.getCurrentVirusFound() == gameSettings.getVirusCount()) {
                             endDialog();
+                            updateHighscore();
+
+                            gameStatistics.setCurrentVirusFound(0);
+                            gameStatistics.setCurrentMoves(0);
                         }
                     }
                 });
@@ -176,7 +190,7 @@ public class GameActivity extends AppCompatActivity {
                 gameStatistics.setCurrentMoves(gameStatistics.getCurrentMoves() + 1);
                 gameStatistics.setCurrentVirusFound(gameStatistics.getCurrentVirusFound() + 1);
 
-            } else if(gameCell.isFlipped() && (!gameCell.isVirusClicked())){
+            } else if((!gameCell.isVirusClicked()) && gameCell.isFlipped()){
 
                 //update virus cells
                 gameCell.setVirusClicked(true);
@@ -191,9 +205,6 @@ public class GameActivity extends AppCompatActivity {
             if(!gameCell.isFlipped()){
 
                 Button button = gameCell.getButton();
-
-                int newWidth = gameCellManager.getGameCells().get(row).get(col).getButton().getWidth();
-                int newHeight = gameCellManager.getGameCells().get(row).get(col).getButton().getHeight();
 
                 gameCell.setFlipped(true);
                 button.setText(findViruses(row, col) + "");
@@ -232,6 +243,7 @@ public class GameActivity extends AppCompatActivity {
         return found;
     }
 
+    //update flipped buttons with the correct remaining amount of virus left
     private void updateButtons(int row, int col){
 
         GameCell gameCell;
@@ -243,7 +255,8 @@ public class GameActivity extends AppCompatActivity {
             Button button = gameCell.getButton();
 
             if(gameCell.isFlipped() && !gameCell.isVirus() || (gameCell.isVirusClicked())){
-                button.setText(findViruses(i, col) + "");
+                String text = findViruses(i, col) + "";
+                button.setText(text);
             }
         }
 
@@ -254,7 +267,8 @@ public class GameActivity extends AppCompatActivity {
             Button button = gameCell.getButton();
 
             if(gameCell.isFlipped() && !gameCell.isVirus() || (gameCell.isVirusClicked())){
-                button.setText(findViruses(row, i) + "");
+                String text = findViruses(row, i) + "";
+                button.setText(text);
             }
         }
     }
@@ -265,28 +279,60 @@ public class GameActivity extends AppCompatActivity {
         TextView currentMoves = findViewById(R.id.currentMovesTextView);
         TextView gamesPlayed = findViewById(R.id.gamesPlayedTextView);
 
-        minesFound.setText(getResources().getText(R.string.mines_found).toString() + " " + gameStatistics.getCurrentVirusFound() + " of " + gameSettings.getVirusCount());
-        currentMoves.setText(getResources().getText(R.string.of_scans_used).toString() + " " + gameStatistics.getCurrentMoves());
-        gamesPlayed.setText(getResources().getText(R.string.times_played).toString() + " " + gameStatistics.getGamesPlayed());
+        String mines = getResources().getText(R.string.mines_found).toString() + " " + gameStatistics.getCurrentVirusFound() + " of " + gameSettings.getVirusCount();
+        String moves = getResources().getText(R.string.of_scans_used).toString() + " " + gameStatistics.getCurrentMoves();
+        String played = getResources().getText(R.string.times_played).toString() + " " + gameStatistics.getGamesPlayed();
+
+        minesFound.setText(mines);
+        currentMoves.setText(moves);
+        gamesPlayed.setText(played);
 
     }
 
     private void endDialog() {
+
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Game Over!");
         alert.setMessage("Do you want to play again?");
+        alert.setCancelable(false);
         alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 recreate();
+                gameStatistics.setGamesPlayed(gameStatistics.getGamesPlayed() + 1);
             }
         });
+
         alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 finish();
             }
         });
         alert.create().show();
+    }
+
+    private void updateHighscore(){
+
+        if(rows == 4 && columns == 6){
+            if(gameStatistics.getCurrentMoves() < gameStatistics.getBest4x6Game() && gameStatistics.getBest4x6Game() != 0){
+                gameStatistics.setBest4x6Game(gameStatistics.getCurrentMoves());
+            } else if(gameStatistics.getBest4x6Game() == 0) {
+                gameStatistics.setBest4x6Game(gameStatistics.getCurrentMoves());
+            }
+        } else if(rows == 5 && columns == 10){
+            if(gameStatistics.getCurrentMoves() < gameStatistics.getBest5x10Game()) {
+                gameStatistics.setBest5x10Game(gameStatistics.getCurrentMoves());
+            }else if(gameStatistics.getBest5x10Game() == 0) {
+                gameStatistics.setBest5x10Game(gameStatistics.getCurrentMoves());
+            }
+        } else if(rows == 6 && columns == 15){
+            if(gameStatistics.getCurrentMoves() < gameStatistics.getBest6x15Game()) {
+                gameStatistics.setBest6x15Game(gameStatistics.getCurrentMoves());
+            } else if(gameStatistics.getBest6x15Game() == 0) {
+                gameStatistics.setBest6x15Game(gameStatistics.getCurrentMoves());
+            }
+        }
     }
 }
