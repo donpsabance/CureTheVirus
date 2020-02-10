@@ -199,7 +199,7 @@ public class GameActivity extends AppCompatActivity {
                 updateButtons(row, col);
                 gameStatistics.setCurrentMoves(gameStatistics.getCurrentMoves() + 1);
 
-                final MediaPlayer player = MediaPlayer.create(this, R.raw.sound);
+                final MediaPlayer player = MediaPlayer.create(this, R.raw.buzz);
                 player.start();
 
                 try {
