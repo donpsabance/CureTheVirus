@@ -3,6 +3,7 @@ package com.curethevirus;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -290,27 +291,19 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void endDialog() {
-
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Game Over!");
-        alert.setMessage("Do you want to play again?");
-        alert.setCancelable(false);
-        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        View myView = getLayoutInflater().inflate(R.layout.activity_end_dialog, null);
+        Button btn = myView.findViewById(R.id.ok);
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                recreate();
-                gameStatistics.setGamesPlayed(gameStatistics.getGamesPlayed() + 1);
-            }
-        });
-
-        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
+            public void onClick(View v) {
                 finish();
             }
         });
-        alert.create().show();
+
+        alert.setView(myView);
+        AlertDialog dialog = alert.create();
+        dialog.show();
     }
 
     private void updateHighscore(){
