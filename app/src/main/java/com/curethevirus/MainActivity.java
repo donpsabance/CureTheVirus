@@ -80,7 +80,14 @@ public class MainActivity extends AppCompatActivity {
         gameSettings.setColumns(sharedPreferences.getInt("columns", 0));
         gameSettings.setVirusCount(sharedPreferences.getInt("virusCount", 0));
 
+        //load defaults if its first time playing since there would be no SharedPreference file
+        if(gameSettings.getRows() == 0 && gameSettings.getColumns() == 0 && gameSettings.getVirusCount() == 0){
 
+               gameSettings.setRows(4);
+               gameSettings.setColumns(6);
+               gameSettings.setVirusCount(6);
+
+        }
     }
 
 

@@ -192,13 +192,6 @@ public class GameActivity extends AppCompatActivity {
                 gameStatistics.setCurrentMoves(gameStatistics.getCurrentMoves() + 1);
                 gameStatistics.setCurrentVirusFound(gameStatistics.getCurrentVirusFound() + 1);
 
-            } else if((!gameCell.isVirusClicked()) && gameCell.isFlipped()){
-
-                //update virus cells
-                gameCell.setVirusClicked(true);
-                updateButtons(row, col);
-                gameStatistics.setCurrentMoves(gameStatistics.getCurrentMoves() + 1);
-
                 final MediaPlayer player = MediaPlayer.create(this, R.raw.sound);
                 player.start();
 
@@ -209,6 +202,14 @@ public class GameActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 player.stop();
+
+            } else if((!gameCell.isVirusClicked()) && gameCell.isFlipped()){
+
+                //update virus cells
+                gameCell.setVirusClicked(true);
+                updateButtons(row, col);
+                gameStatistics.setCurrentMoves(gameStatistics.getCurrentMoves() + 1);
+
             }
         } else {
 
