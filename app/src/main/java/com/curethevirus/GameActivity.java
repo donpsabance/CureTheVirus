@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -198,6 +199,16 @@ public class GameActivity extends AppCompatActivity {
                 updateButtons(row, col);
                 gameStatistics.setCurrentMoves(gameStatistics.getCurrentMoves() + 1);
 
+                final MediaPlayer player = MediaPlayer.create(this, R.raw.sound);
+                player.start();
+
+                try {
+                    Thread.sleep(2000);
+                }
+                catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+                player.stop();
             }
         } else {
 
