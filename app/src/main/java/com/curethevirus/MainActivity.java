@@ -23,6 +23,7 @@ import com.curethevirus.model.GameStatistics;
 public class MainActivity extends AppCompatActivity {
 
     private static final int SETTINGS_REQUEST = 1;
+    private static final int PLAY_REQUEST = 0;
 
     private GameSettings gameSettings;
     private GameStatistics gameStatistics;
@@ -103,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
         gameStatistics.setBest5x10Game(sharedPreferences.getInt("best5x10", 0));
         gameStatistics.setBest6x15Game(sharedPreferences.getInt("best6x15", 0));
 
-        //load highscores
-
     }
 
     private void loadPlayButton(){
@@ -115,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 Intent intent = GameActivity.makeIntent(MainActivity.this);
-                startActivity(intent);
+                startActivityForResult(intent, PLAY_REQUEST);
 
                 gameStatistics.setGamesPlayed(gameStatistics.getGamesPlayed() + 1);
             }
@@ -146,5 +145,20 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, SETTINGS_REQUEST);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+
+        if(requestCode == PLAY_REQUEST){
+            if(resultCode == RESULT_CANCELED){
+
+                //reset game statistics, but not games played
+
+                gameStatistics.setCurrentMoves(0);
+                gameStatistics.setCurrentVirusFound(0);
+
+            }
+        }
     }
 }

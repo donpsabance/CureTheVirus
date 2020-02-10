@@ -3,6 +3,7 @@ package com.curethevirus;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.BounceInterpolator;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -81,10 +83,7 @@ public class GameActivity extends AppCompatActivity {
         final SharedPreferences sharedPreferences = GameActivity.this.getSharedPreferences(getString(R.string.settingSharedPref), Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putInt("currentMoves", gameStatistics.getCurrentMoves()).apply();
-        editor.putInt("currentVirusFound", gameStatistics.getCurrentVirusFound()).apply();
         editor.putInt("gamesPlayed", gameStatistics.getGamesPlayed()).apply();
-
         editor.putInt("best4x6", gameStatistics.getBest4x6Game());
         editor.putInt("best5x10", gameStatistics.getBest5x10Game());
         editor.putInt("best6x15", gameStatistics.getBest6x15Game());
@@ -192,16 +191,16 @@ public class GameActivity extends AppCompatActivity {
                 gameStatistics.setCurrentMoves(gameStatistics.getCurrentMoves() + 1);
                 gameStatistics.setCurrentVirusFound(gameStatistics.getCurrentVirusFound() + 1);
 
-                final MediaPlayer player = MediaPlayer.create(this, R.raw.sound);
-                player.start();
+                final MediaPlayer player = MediaPlayer.create(this, R.raw.buzz);
+//                player.start();
 
-                try {
-                    Thread.sleep(2000);
-                }
-                catch (InterruptedException e){
-                    e.printStackTrace();
-                }
-                player.stop();
+//                try {
+//                    Thread.sleep(2000);
+//                }
+//                catch (InterruptedException e){
+//                    e.printStackTrace();
+//                }
+//                player.stop();
 
             } else if((!gameCell.isVirusClicked()) && gameCell.isFlipped()){
 
@@ -218,9 +217,10 @@ public class GameActivity extends AppCompatActivity {
             if(!gameCell.isFlipped()){
 
                 Button button = gameCell.getButton();
+                String text = findViruses(row, col, true) + "";
 
                 gameCell.setFlipped(true);
-                button.setText(findViruses(row, col) + "");
+                button.setText(text);
 
                 updateButtons(row, col);
                 gameStatistics.setCurrentMoves(gameStatistics.getCurrentMoves() + 1);
@@ -229,7 +229,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private int findViruses(int row, int col){
+    private int findViruses(int row, int col, boolean animate){
 
         GameCell gameCell;
         int found = 0;
@@ -238,6 +238,15 @@ public class GameActivity extends AppCompatActivity {
         for(int i = 0; i < rows; i++){
 
             gameCell = gameCellManager.getGameCells().get(i).get(col);
+
+            if(!gameCell.isFlipped() && animate){
+
+                //https://stackoverflow.com/questions/15006369/bounce-button-on-tap
+                ObjectAnimator animator = ObjectAnimator.ofFloat(gameCell.getButton(), "translationY" , - 50f, 0f);
+                animator.setDuration(1200);
+                animator.setInterpolator(new BounceInterpolator());
+                animator.start();
+            }
 
             if(gameCell.isVirus() && !gameCell.isFlipped()){
                 found++;
@@ -248,6 +257,15 @@ public class GameActivity extends AppCompatActivity {
         for(int i = 0; i < columns; i++) {
 
             gameCell = gameCellManager.getGameCells().get(row).get(i);
+
+            if(!gameCell.isFlipped() && animate){
+
+                //https://stackoverflow.com/questions/15006369/bounce-button-on-tap
+                ObjectAnimator animator = ObjectAnimator.ofFloat(gameCell.getButton(), "translationY" , - 50f, 0f);
+                animator.setDuration(1200);
+                animator.setInterpolator(new BounceInterpolator());
+                animator.start();
+            }
 
             if (gameCell.isVirus() && !gameCell.isFlipped()){
                 found++;
@@ -268,8 +286,17 @@ public class GameActivity extends AppCompatActivity {
             Button button = gameCell.getButton();
 
             if(gameCell.isFlipped() && !gameCell.isVirus() || (gameCell.isVirusClicked())){
-                String text = findViruses(i, col) + "";
+                String text = findViruses(i, col, false) + "";
                 button.setText(text);
+            }
+
+            if(!gameCell.isFlipped()){
+
+                //https://stackoverflow.com/questions/15006369/bounce-button-on-tap
+                ObjectAnimator animator = ObjectAnimator.ofFloat(gameCell.getButton(), "translationY" , - 50f, 0f);
+                animator.setDuration(1200);
+                animator.setInterpolator(new BounceInterpolator());
+                animator.start();
             }
         }
 
@@ -280,8 +307,17 @@ public class GameActivity extends AppCompatActivity {
             Button button = gameCell.getButton();
 
             if(gameCell.isFlipped() && !gameCell.isVirus() || (gameCell.isVirusClicked())){
-                String text = findViruses(row, i) + "";
+                String text = findViruses(row, i, false) + "";
                 button.setText(text);
+            }
+
+            if(!gameCell.isFlipped()){
+
+                //https://stackoverflow.com/questions/15006369/bounce-button-on-tap
+                ObjectAnimator animator = ObjectAnimator.ofFloat(gameCell.getButton(), "translationY" , - 50f, 0f);
+                animator.setDuration(1200);
+                animator.setInterpolator(new BounceInterpolator());
+                animator.start();
             }
         }
     }
@@ -306,6 +342,7 @@ public class GameActivity extends AppCompatActivity {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         View myView = getLayoutInflater().inflate(R.layout.activity_end_dialog, null);
         Button btn = myView.findViewById(R.id.ok);
+        alert.setCancelable(false);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
