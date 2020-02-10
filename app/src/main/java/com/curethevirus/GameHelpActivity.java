@@ -28,12 +28,6 @@ public class GameHelpActivity extends AppCompatActivity {
 
         //load button
         loadBackButton();
-
-        //make links clickable
-
-//        TextView t1 = findViewById(R.id.cmpt276);
-//        t1.setMovementMethod(LinkMovementMethod.getInstance());
-
     }
 
     private void loadBackButton(){
