@@ -21,8 +21,8 @@
 
     <TextView
         android:id="@+id/helpDesc"
-        android:layout_width="0dp"
-        android:layout_height="137dp"
+        android:layout_width="585dp"
+        android:layout_height="156dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:text="@string/gameDescHelp"
         android:textAlignment="inherit"
@@ -79,21 +79,47 @@
         app:layout_constraintGuide_percent="0.9" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/link1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:autoLink="all"
+        android:clickable="true"
         android:text="@string/background_url"
         android:textColor="#000000"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toBottomOf="@+id/helpDesc" />
+        app:layout_constraintTop_toBottomOf="@+id/cmpt276" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/link2"
+        android:autoLink="all"
+        android:clickable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/icon_url"
         android:textColor="#000000"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/link1" />
+
+    <TextView
+        android:id="@+id/cmpt276"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:autoLink="all"
+        android:clickable="true"
+        android:text="https://opencoursehub.cs.sfu.ca/bfraser/grav-cms/cmpt276/home"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/helpDesc" />
+
+    <TextView
+        android:id="@+id/link3"
+        android:autoLink="all"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="https://bit.ly/2w2nQVv"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/link2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
