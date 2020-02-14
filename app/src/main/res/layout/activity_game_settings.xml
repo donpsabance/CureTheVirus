@@ -44,18 +44,6 @@
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toTopOf="@+id/guideline11" />
 
-    <Switch
-        android:id="@+id/switch2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="true"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:text="@string/toggle_sound_effects"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline12"
-        app:layout_constraintStart_toStartOf="@+id/guideline7" />
-
     <RadioGroup
         android:id="@+id/boardSizeRadioGroup"
         android:layout_width="wrap_content"

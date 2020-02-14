@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -30,6 +31,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void startAnimation(){
 
+        Handler handler = new Handler();
         RotateAnimation rotateAnimation = new RotateAnimation(0f, 360f, 200f, 200f);
         rotateAnimation.setInterpolator(new LinearInterpolator());
         rotateAnimation.setRepeatCount(Animation.INFINITE);
@@ -57,26 +59,18 @@ public class WelcomeActivity extends AppCompatActivity {
                 skipped = true;
                 Intent intent = MainActivity.makeIntent(WelcomeActivity.this);
                 startActivity(intent);
-                finish();
             }
         });
 
-        Thread myThread = new Thread() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                try {
-                    sleep(5000);
-                    if(skipped == false) {
-                        Intent intent = MainActivity.makeIntent(WelcomeActivity.this);
-                        startActivity(intent);
-                    }
-                    finish();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+
+                if(!skipped){
+                    Intent intent = MainActivity.makeIntent(WelcomeActivity.this);
+                    startActivity(intent);
                 }
             }
-        };
-
-        myThread.start();
+        }, 5000);
     }
 }

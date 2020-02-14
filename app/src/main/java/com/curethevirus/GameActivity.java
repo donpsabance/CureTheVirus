@@ -191,16 +191,8 @@ public class GameActivity extends AppCompatActivity {
                 gameStatistics.setCurrentMoves(gameStatistics.getCurrentMoves() + 1);
                 gameStatistics.setCurrentVirusFound(gameStatistics.getCurrentVirusFound() + 1);
 
-                final MediaPlayer player = MediaPlayer.create(this, R.raw.buzz);
-//                player.start();
-
-//                try {
-//                    Thread.sleep(2000);
-//                }
-//                catch (InterruptedException e){
-//                    e.printStackTrace();
-//                }
-//                player.stop();
+                final MediaPlayer player = MediaPlayer.create(this, R.raw.success);
+                player.start();
 
             } else if((!gameCell.isVirusClicked()) && gameCell.isFlipped()){
 
