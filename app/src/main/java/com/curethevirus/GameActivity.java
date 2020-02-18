@@ -181,7 +181,7 @@ public class GameActivity extends AppCompatActivity {
                 int newWidth = gameCellManager.getGameCells().get(row).get(col).getButton().getWidth();
                 int newHeight = gameCellManager.getGameCells().get(row).get(col).getButton().getHeight();
 
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.virus_icon);
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.virus);
                 Bitmap scaled = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
                 button.setBackground(new BitmapDrawable(getResources(), scaled));
 

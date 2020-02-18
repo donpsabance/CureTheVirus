@@ -26,7 +26,6 @@ public class WelcomeActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
         startAnimation();
-
     }
 
     private void startAnimation(){
