@@ -18,12 +18,18 @@ import android.widget.Toast;
 import com.curethevirus.model.GameSettings;
 import com.curethevirus.model.GameStatistics;
 
+/**
+ * This class is for the settings page, and allows the player to choose the
+ * settings they want for the game. This class uses the GameSettings class
+ * to set up the game.
+ */
+
 public class GameSettingsActivity extends AppCompatActivity {
 
     private GameSettings gameSettings;
     private GameStatistics gameStatistics;
 
-    public static Intent makeIntent(Context context){
+    public static Intent makeIntent(Context context) {
         return new Intent(context, GameSettingsActivity.class);
     }
 
@@ -53,14 +59,14 @@ public class GameSettingsActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
 
         super.onStart();
         loadGameSettings();
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
 
         super.onPause();
         saveGameSettings();
@@ -101,13 +107,13 @@ public class GameSettingsActivity extends AppCompatActivity {
         String[] boardSizeValues = getResources().getStringArray(R.array.boardSize);
         int[] virusCountValues = getResources().getIntArray(R.array.virusAmount);
 
-        for(int i = 0; i < boardSizeValues.length; i++){
+        for (int i = 0; i < boardSizeValues.length; i++) {
 
             int rows = gameSettings.getRows();
             int columns = gameSettings.getColumns();
 
-            if(Integer.parseInt(boardSizeValues[i].split("x")[0]) == rows &&
-                Integer.parseInt(boardSizeValues[i].split("x")[1]) == columns){
+            if (Integer.parseInt(boardSizeValues[i].split("x")[0]) == rows &&
+                    Integer.parseInt(boardSizeValues[i].split("x")[1]) == columns) {
 
                 RadioButton radioButton = (RadioButton) boardSizeRadioGroup.getChildAt(i);
                 radioButton.setChecked(true);
@@ -115,11 +121,11 @@ public class GameSettingsActivity extends AppCompatActivity {
             }
         }
 
-        for(int i = 0; i < virusCountValues.length; i++){
+        for (int i = 0; i < virusCountValues.length; i++) {
 
             int virusCount = gameSettings.getVirusCount();
 
-            if(virusCountValues[i] == virusCount){
+            if (virusCountValues[i] == virusCount) {
 
                 RadioButton radioButton = (RadioButton) virusRadioGroup.getChildAt(i);
                 radioButton.setChecked(true);
@@ -135,7 +141,7 @@ public class GameSettingsActivity extends AppCompatActivity {
 
         String[] values = getResources().getStringArray(R.array.boardSize);
 
-        for(int i = 0; i < values.length; i++){
+        for (int i = 0; i < values.length; i++) {
 
             final String currentValue = values[i];
 
@@ -161,14 +167,14 @@ public class GameSettingsActivity extends AppCompatActivity {
         int rows = sharedPreferences.getInt("rows", 0);
         int columns = sharedPreferences.getInt("columns", 0);
 
-        if(rows == 0 && columns == 0){
+        if (rows == 0 && columns == 0) {
 
             //set defaults
             RadioButton radioButton = (RadioButton) radioGroup.getChildAt(0);
             radioButton.setChecked(true);
 
-            gameSettings.setRows(Integer.parseInt (((RadioButton) radioGroup.getChildAt(0)).getText().toString().split("x")[0] + ""));
-            gameSettings.setColumns(Integer.parseInt (((RadioButton) radioGroup.getChildAt(0)).getText().toString().split("x")[1] + ""));
+            gameSettings.setRows(Integer.parseInt(((RadioButton) radioGroup.getChildAt(0)).getText().toString().split("x")[0] + ""));
+            gameSettings.setColumns(Integer.parseInt(((RadioButton) radioGroup.getChildAt(0)).getText().toString().split("x")[1] + ""));
 
         }
     }
@@ -180,7 +186,7 @@ public class GameSettingsActivity extends AppCompatActivity {
 
         int[] values = getResources().getIntArray(R.array.virusAmount);
 
-        for(int i = 0; i < values.length; i++){
+        for (int i = 0; i < values.length; i++) {
 
             final int currentValue = values[i];
 
@@ -203,17 +209,17 @@ public class GameSettingsActivity extends AppCompatActivity {
         }
 
         int virusCount = sharedPreferences.getInt("virusCount", 0);
-        if(virusCount == 0){
+        if (virusCount == 0) {
 
             //set defaults
             RadioButton radioButton = (RadioButton) radioGroup.getChildAt(0);
             radioButton.setChecked(true);
-            gameSettings.setVirusCount(Integer.parseInt (((RadioButton) radioGroup.getChildAt(0)).getText().toString().split(" ")[0] + ""));
+            gameSettings.setVirusCount(Integer.parseInt(((RadioButton) radioGroup.getChildAt(0)).getText().toString().split(" ")[0] + ""));
 
         }
     }
 
-    private void loadBackButton(){
+    private void loadBackButton() {
 
         Button button = findViewById(R.id.settingsBackButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -225,7 +231,7 @@ public class GameSettingsActivity extends AppCompatActivity {
         });
     }
 
-    private void loadResetStatisticsButton(){
+    private void loadResetStatisticsButton() {
 
         Button button = findViewById(R.id.settingsResetButton);
         button.setOnClickListener(new View.OnClickListener() {

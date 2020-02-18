@@ -1,5 +1,10 @@
 package com.curethevirus.model;
 
+/**
+ * This class is responsible for the statistics in the game and will save the best score
+ * for each mode.
+ */
+
 public class GameStatistics {
 
     //does not need to be saved after app shutdown
@@ -14,15 +19,15 @@ public class GameStatistics {
 
     private static GameStatistics instance;
 
-    public static GameStatistics getInstance(){
-        if(instance == null){
+    public static GameStatistics getInstance() {
+        if (instance == null) {
             instance = new GameStatistics();
         }
         return instance;
     }
 
 
-    private GameStatistics(){
+    private GameStatistics() {
         this.currentMoves = 0;
         this.currentVirusFound = 0;
         this.gamesPlayed = 0;
@@ -31,7 +36,7 @@ public class GameStatistics {
         this.best6x15Game = 0;
     }
 
-    public void resetStatistics(){
+    public void resetStatistics() {
 
         this.currentMoves = 0;
         this.currentVirusFound = 0;

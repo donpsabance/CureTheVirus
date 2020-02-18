@@ -7,11 +7,11 @@ import android.widget.Button;
 import com.curethevirus.GameActivity;
 
 /**
-    Individual cell information, whether it's a virus or not
-
+ * This class displays individual cell information such as
+ * whether or not it is a virus and its location.
  */
 
-public class GameCell{
+public class GameCell {
 
     private int rowLocation;
     private int columnLocation;

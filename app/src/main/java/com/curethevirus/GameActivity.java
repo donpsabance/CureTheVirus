@@ -29,6 +29,10 @@ import com.curethevirus.model.GameCellManager;
 import com.curethevirus.model.GameSettings;
 import com.curethevirus.model.GameStatistics;
 
+/**
+ * This class runs the game, and uses other classes such as GameCellManager and GameSettings.
+ */
+
 
 public class GameActivity extends AppCompatActivity {
 
@@ -40,7 +44,7 @@ public class GameActivity extends AppCompatActivity {
     private int columns;
     private int virusCount;
 
-    public static Intent makeIntent(Context context){
+    public static Intent makeIntent(Context context) {
         return new Intent(context, GameActivity.class);
     }
 
@@ -65,7 +69,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
 
         super.onStart();
         //full screen immersive experience - taken from android docs
@@ -75,7 +79,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
 
         super.onPause();
 
@@ -97,11 +101,11 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    private void loadCells(){
+    private void loadCells() {
 
         TableLayout tableLayout = findViewById(R.id.cellsTable);
 
-        for(int i = 0; i < rows; i++){
+        for (int i = 0; i < rows; i++) {
 
             TableRow tableRow = new TableRow(this);
             tableRow.setLayoutParams(new TableLayout.LayoutParams(
@@ -111,7 +115,7 @@ public class GameActivity extends AppCompatActivity {
 
             tableLayout.addView(tableRow);
 
-            for(int j = 0; j < columns; j++){
+            for (int j = 0; j < columns; j++) {
 
                 final int currentRow = i;
                 final int currentCol = j;
@@ -131,7 +135,7 @@ public class GameActivity extends AppCompatActivity {
                         scanCell(currentRow, currentCol);
                         updateGameStatistics();
 
-                        if(gameStatistics.getCurrentVirusFound() == gameSettings.getVirusCount()) {
+                        if (gameStatistics.getCurrentVirusFound() == gameSettings.getVirusCount()) {
                             endDialog();
                             updateHighscore();
 
@@ -148,10 +152,10 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private void lockButtonSize(){
+    private void lockButtonSize() {
 
-        for(int i = 0; i < rows; i++){
-            for(int j = 0; j < columns; j++){
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
 
                 Button button = gameCellManager.getGameCells().get(i).get(j).getButton();
 
@@ -168,20 +172,20 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    public void scanCell(int row, int col){
+    public void scanCell(int row, int col) {
 
-        if(gameCellManager.getGameCells().get(row).get(col).isVirus()){
+        if (gameCellManager.getGameCells().get(row).get(col).isVirus()) {
 
             GameCell gameCell = gameCellManager.getGameCells().get(row).get(col);
 
-            if(!gameCell.isFlipped()){
+            if (!gameCell.isFlipped()) {
 
                 Button button = gameCell.getButton();
 
                 int newWidth = gameCellManager.getGameCells().get(row).get(col).getButton().getWidth();
                 int newHeight = gameCellManager.getGameCells().get(row).get(col).getButton().getHeight();
 
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.virus);
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.virus_icon);
                 Bitmap scaled = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
                 button.setBackground(new BitmapDrawable(getResources(), scaled));
 
@@ -194,7 +198,7 @@ public class GameActivity extends AppCompatActivity {
                 final MediaPlayer player = MediaPlayer.create(this, R.raw.success);
                 player.start();
 
-            } else if((!gameCell.isVirusClicked()) && gameCell.isFlipped()){
+            } else if ((!gameCell.isVirusClicked()) && gameCell.isFlipped()) {
 
                 //update virus cells
                 gameCell.setVirusClicked(true);
@@ -206,9 +210,9 @@ public class GameActivity extends AppCompatActivity {
 
             GameCell gameCell = gameCellManager.getGameCells().get(row).get(col);
 
-            if(!gameCell.isFlipped()){
+            if (!gameCell.isFlipped()) {
 
-                final MediaPlayer player = MediaPlayer.create(this, R.raw.scan);
+                final MediaPlayer player = MediaPlayer.create(this, R.raw.buzz);
                 player.start();
 
                 Button button = gameCell.getButton();
@@ -224,45 +228,45 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private int findViruses(int row, int col, boolean animate){
+    private int findViruses(int row, int col, boolean animate) {
 
         GameCell gameCell;
         int found = 0;
 
         //check all vertical ones
-        for(int i = 0; i < rows; i++){
+        for (int i = 0; i < rows; i++) {
 
             gameCell = gameCellManager.getGameCells().get(i).get(col);
 
-            if(!gameCell.isFlipped() && animate){
+            if (!gameCell.isFlipped() && animate) {
 
                 //https://stackoverflow.com/questions/15006369/bounce-button-on-tap
-                ObjectAnimator animator = ObjectAnimator.ofFloat(gameCell.getButton(), "translationY" , - 50f, 0f);
+                ObjectAnimator animator = ObjectAnimator.ofFloat(gameCell.getButton(), "translationY", -50f, 0f);
                 animator.setDuration(1200);
                 animator.setInterpolator(new BounceInterpolator());
                 animator.start();
             }
 
-            if(gameCell.isVirus() && !gameCell.isFlipped()){
+            if (gameCell.isVirus() && !gameCell.isFlipped()) {
                 found++;
             }
         }
 
         //check all horizontal ones
-        for(int i = 0; i < columns; i++) {
+        for (int i = 0; i < columns; i++) {
 
             gameCell = gameCellManager.getGameCells().get(row).get(i);
 
-            if(!gameCell.isFlipped() && animate){
+            if (!gameCell.isFlipped() && animate) {
 
                 //https://stackoverflow.com/questions/15006369/bounce-button-on-tap
-                ObjectAnimator animator = ObjectAnimator.ofFloat(gameCell.getButton(), "translationY" , - 50f, 0f);
+                ObjectAnimator animator = ObjectAnimator.ofFloat(gameCell.getButton(), "translationY", -50f, 0f);
                 animator.setDuration(1200);
                 animator.setInterpolator(new BounceInterpolator());
                 animator.start();
             }
 
-            if (gameCell.isVirus() && !gameCell.isFlipped()){
+            if (gameCell.isVirus() && !gameCell.isFlipped()) {
                 found++;
             }
         }
@@ -270,25 +274,25 @@ public class GameActivity extends AppCompatActivity {
     }
 
     //update flipped buttons with the correct remaining amount of virus left
-    private void updateButtons(int row, int col){
+    private void updateButtons(int row, int col) {
 
         GameCell gameCell;
 
         //check all vertical ones
-        for(int i = 0; i < rows; i++){
+        for (int i = 0; i < rows; i++) {
 
             gameCell = gameCellManager.getGameCells().get(i).get(col);
             Button button = gameCell.getButton();
 
-            if(gameCell.isFlipped() && !gameCell.isVirus() || (gameCell.isVirusClicked())){
+            if (gameCell.isFlipped() && !gameCell.isVirus() || (gameCell.isVirusClicked())) {
                 String text = findViruses(i, col, false) + "";
                 button.setText(text);
             }
 
-            if(!gameCell.isFlipped()){
+            if (!gameCell.isFlipped()) {
 
                 //https://stackoverflow.com/questions/15006369/bounce-button-on-tap
-                ObjectAnimator animator = ObjectAnimator.ofFloat(gameCell.getButton(), "translationY" , - 50f, 0f);
+                ObjectAnimator animator = ObjectAnimator.ofFloat(gameCell.getButton(), "translationY", -50f, 0f);
                 animator.setDuration(1200);
                 animator.setInterpolator(new BounceInterpolator());
                 animator.start();
@@ -296,20 +300,20 @@ public class GameActivity extends AppCompatActivity {
         }
 
         //check all horizontal ones
-        for(int i = 0; i < columns; i++){
+        for (int i = 0; i < columns; i++) {
 
             gameCell = gameCellManager.getGameCells().get(row).get(i);
             Button button = gameCell.getButton();
 
-            if(gameCell.isFlipped() && !gameCell.isVirus() || (gameCell.isVirusClicked())){
+            if (gameCell.isFlipped() && !gameCell.isVirus() || (gameCell.isVirusClicked())) {
                 String text = findViruses(row, i, false) + "";
                 button.setText(text);
             }
 
-            if(!gameCell.isFlipped()){
+            if (!gameCell.isFlipped()) {
 
                 //https://stackoverflow.com/questions/15006369/bounce-button-on-tap
-                ObjectAnimator animator = ObjectAnimator.ofFloat(gameCell.getButton(), "translationY" , - 50f, 0f);
+                ObjectAnimator animator = ObjectAnimator.ofFloat(gameCell.getButton(), "translationY", -50f, 0f);
                 animator.setDuration(1200);
                 animator.setInterpolator(new BounceInterpolator());
                 animator.start();
@@ -350,24 +354,24 @@ public class GameActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void updateHighscore(){
+    private void updateHighscore() {
 
-        if(rows == 4 && columns == 6){
-            if(gameStatistics.getCurrentMoves() < gameStatistics.getBest4x6Game() && gameStatistics.getBest4x6Game() != 0){
+        if (rows == 4 && columns == 6) {
+            if (gameStatistics.getCurrentMoves() < gameStatistics.getBest4x6Game() && gameStatistics.getBest4x6Game() != 0) {
                 gameStatistics.setBest4x6Game(gameStatistics.getCurrentMoves());
-            } else if(gameStatistics.getBest4x6Game() == 0) {
+            } else if (gameStatistics.getBest4x6Game() == 0) {
                 gameStatistics.setBest4x6Game(gameStatistics.getCurrentMoves());
             }
-        } else if(rows == 5 && columns == 10){
-            if(gameStatistics.getCurrentMoves() < gameStatistics.getBest5x10Game()) {
+        } else if (rows == 5 && columns == 10) {
+            if (gameStatistics.getCurrentMoves() < gameStatistics.getBest5x10Game()) {
                 gameStatistics.setBest5x10Game(gameStatistics.getCurrentMoves());
-            }else if(gameStatistics.getBest5x10Game() == 0) {
+            } else if (gameStatistics.getBest5x10Game() == 0) {
                 gameStatistics.setBest5x10Game(gameStatistics.getCurrentMoves());
             }
-        } else if(rows == 6 && columns == 15){
-            if(gameStatistics.getCurrentMoves() < gameStatistics.getBest6x15Game()) {
+        } else if (rows == 6 && columns == 15) {
+            if (gameStatistics.getCurrentMoves() < gameStatistics.getBest6x15Game()) {
                 gameStatistics.setBest6x15Game(gameStatistics.getCurrentMoves());
-            } else if(gameStatistics.getBest6x15Game() == 0) {
+            } else if (gameStatistics.getBest6x15Game() == 0) {
                 gameStatistics.setBest6x15Game(gameStatistics.getCurrentMoves());
             }
         }

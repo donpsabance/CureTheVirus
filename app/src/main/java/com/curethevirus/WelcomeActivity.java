@@ -13,6 +13,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+/**
+ * This class is for the launch splash screen when you first load
+ * the game, and shows a virus animation.
+ */
+
 public class WelcomeActivity extends AppCompatActivity {
 
     private boolean skipped = false;
@@ -28,7 +33,7 @@ public class WelcomeActivity extends AppCompatActivity {
         startAnimation();
     }
 
-    private void startAnimation(){
+    private void startAnimation() {
 
         Handler handler = new Handler();
         RotateAnimation rotateAnimation = new RotateAnimation(0f, 360f, 200f, 200f);
@@ -65,7 +70,7 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                if(!skipped){
+                if (!skipped) {
                     Intent intent = MainActivity.makeIntent(WelcomeActivity.this);
                     startActivity(intent);
                 }

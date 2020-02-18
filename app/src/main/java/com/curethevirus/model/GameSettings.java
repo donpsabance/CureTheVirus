@@ -1,5 +1,10 @@
 package com.curethevirus.model;
 
+/**
+ * This class sets up the number of columns, rows, and viruses in a new game.
+ */
+
+
 public class GameSettings {
 
     private int rows;
@@ -8,15 +13,15 @@ public class GameSettings {
 
     private static GameSettings instance;
 
-    private GameSettings(){
+    private GameSettings() {
 
         rows = 0;
         columns = 0;
         virusCount = 0;
     }
 
-    public static GameSettings getInstance(){
-        if(instance == null){
+    public static GameSettings getInstance() {
+        if (instance == null) {
             instance = new GameSettings();
         }
         return instance;

@@ -20,6 +20,11 @@ import com.curethevirus.model.GameCellManager;
 import com.curethevirus.model.GameSettings;
 import com.curethevirus.model.GameStatistics;
 
+/**
+ * This class is the Main Menu, and has buttons that lead to game settings,
+ * help, and playing the game.
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int SETTINGS_REQUEST = 1;
@@ -28,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private GameSettings gameSettings;
     private GameStatistics gameStatistics;
 
-    public static Intent makeIntent(Context context){
+    public static Intent makeIntent(Context context) {
         return new Intent(context, MainActivity.class);
     }
 
@@ -63,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
 
         super.onStart();
         //full screen immersive experience - taken from android docs
@@ -74,11 +79,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
 
         //https://stackoverflow.com/questions/17719634/how-to-exit-an-android-app-programmatically
         Intent homeIntent = new Intent(Intent.ACTION_MAIN);
-        homeIntent.addCategory( Intent.CATEGORY_HOME );
+        homeIntent.addCategory(Intent.CATEGORY_HOME);
         homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(homeIntent);
     }
@@ -92,11 +97,11 @@ public class MainActivity extends AppCompatActivity {
         gameSettings.setVirusCount(sharedPreferences.getInt("virusCount", 0));
 
         //load defaults if its first time playing since there would be no SharedPreference file
-        if(gameSettings.getRows() == 0 && gameSettings.getColumns() == 0 && gameSettings.getVirusCount() == 0){
+        if (gameSettings.getRows() == 0 && gameSettings.getColumns() == 0 && gameSettings.getVirusCount() == 0) {
 
-               gameSettings.setRows(4);
-               gameSettings.setColumns(6);
-               gameSettings.setVirusCount(6);
+            gameSettings.setRows(4);
+            gameSettings.setColumns(6);
+            gameSettings.setVirusCount(6);
 
         }
     }
@@ -116,13 +121,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void loadPlayButton(){
+    private void loadPlayButton() {
 
         Button button = findViewById(R.id.playButton);
-        button.setOnClickListener(new View.OnClickListener(){
+        button.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 Intent intent = GameActivity.makeIntent(MainActivity.this);
                 startActivityForResult(intent, PLAY_REQUEST);
 
@@ -131,13 +136,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void loadGameHelpButton(){
+    private void loadGameHelpButton() {
 
         Button button = findViewById(R.id.helpButton);
-        button.setOnClickListener(new View.OnClickListener(){
+        button.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 Intent intent = GameHelpActivity.makeIntent(MainActivity.this);
                 startActivity(intent);
 
@@ -145,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void loadSettingsButton(){
+    private void loadSettingsButton() {
 
         Button button = findViewById(R.id.settingsButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -158,10 +163,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if(requestCode == PLAY_REQUEST){
-            if(resultCode == RESULT_CANCELED){
+        if (requestCode == PLAY_REQUEST) {
+            if (resultCode == RESULT_CANCELED) {
 
                 //reset game statistics, but not games played
                 gameStatistics.setCurrentMoves(0);

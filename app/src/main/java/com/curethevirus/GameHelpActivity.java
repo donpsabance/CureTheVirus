@@ -10,9 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * This class is for the Help page in the menu, and displays instructions on how
+ * to play the game.
+ */
+
 public class GameHelpActivity extends AppCompatActivity {
 
-    public static Intent makeIntent(Context context){
+    public static Intent makeIntent(Context context) {
         Intent intent = new Intent(context, GameHelpActivity.class);
         return intent;
     }
@@ -30,7 +35,7 @@ public class GameHelpActivity extends AppCompatActivity {
         loadBackButton();
     }
 
-    private void loadBackButton(){
+    private void loadBackButton() {
 
         Button button = findViewById(R.id.helpBackButton);
         button.setOnClickListener(new View.OnClickListener() {

@@ -11,9 +11,8 @@ import java.util.Random;
 /**
  * Manage all the cells and stores location and information such as being a virus or not
  * Functions:
- *              searchVirus
- *              createVirus
- *
+ * searchVirus
+ * createVirus
  */
 
 public class GameCellManager {
@@ -24,45 +23,45 @@ public class GameCellManager {
 
     private List<List<GameCell>> gameCells;
 
-    public GameCellManager(int row, int col, int virusCount){
+    public GameCellManager(int row, int col, int virusCount) {
         gameCells = new ArrayList<>(rows);
         this.rows = row;
         this.columns = col;
         this.virusCount = virusCount;
 
         //instantiate rows
-        for(int i = 0; i < rows; i++){
+        for (int i = 0; i < rows; i++) {
             gameCells.add(new ArrayList<GameCell>());
         }
     }
 
-    public List<List<GameCell>> getGameCells(){
+    public List<List<GameCell>> getGameCells() {
         return gameCells;
     }
 
-    public void addCell(GameCell gameCell, int row, int col){
+    public void addCell(GameCell gameCell, int row, int col) {
 
         gameCells.get(row).add(col, gameCell);
 
     }
 
-    public void generateVirus(){
+    public void generateVirus() {
 
         Random random = new Random();
         List<Integer> virusLocations = new ArrayList<>();
 
-        while(virusLocations.size() < virusCount){
+        while (virusLocations.size() < virusCount) {
 
             int generated = random.nextInt(rows * columns);
 
-            if(!virusLocations.contains(generated)){
+            if (!virusLocations.contains(generated)) {
                 virusLocations.add(generated);
             }
         }
 
         //now apply all virus to the cells
         //convert all locations into 2d location
-        for(Integer i : virusLocations){
+        for (Integer i : virusLocations) {
 
             int row = i / columns;
             int col = i % columns;
