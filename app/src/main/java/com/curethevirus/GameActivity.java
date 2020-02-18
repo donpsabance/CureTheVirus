@@ -208,6 +208,9 @@ public class GameActivity extends AppCompatActivity {
 
             if(!gameCell.isFlipped()){
 
+                final MediaPlayer player = MediaPlayer.create(this, R.raw.scan);
+                player.start();
+
                 Button button = gameCell.getButton();
                 String text = findViruses(row, col, true) + "";
 

@@ -154,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == RESULT_CANCELED){
 
                 //reset game statistics, but not games played
-
                 gameStatistics.setCurrentMoves(0);
                 gameStatistics.setCurrentVirusFound(0);
 

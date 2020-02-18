@@ -31,4 +31,8 @@
     <string name="back_button">Back</string>
     <string name="developers">Developed by Amos Ko and Don Abance</string>
     <string name="highscores">Highscores</string>
+    <string name="https_opencoursehub_cs_sfu_ca_bfraser_grav_cms_cmpt276_home">https://opencoursehub.cs.sfu.ca/bfraser/grav-cms/cmpt276/home</string>
+    <string name="https_bit_ly_2w2nqvv">https://bit.ly/2w2nQVv</string>
+    <string name="http_soundbible_com_1830_sad_trombone_html">http://soundbible.com/1830-Sad-Trombone.html</string>
+    <string name="http_www_orangefreesounds_com_wp_content_uploads_2018_11_success_sound_effect_zip">http://www.orangefreesounds.com/wp-content/uploads/2018/11/Success-sound-effect.zip</string>
 </resources>
